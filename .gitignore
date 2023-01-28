@@ -1,23 +1,45 @@
-# Compiled class file
-*.class
+<!doctype html>
 
-# Log file
-*.log
+<style>
+    #button {
+        background-image: url('https://st.depositphotos.com/2086879/2449/i/450/depositphotos_24493081-stock-photo-old-paper.jpg');
+        background-size: cover;
+        width: 200px;
+        height: 30px;
+        border: none;
+ font-weight: bold;
+    }
+ #button:active {
+        transform: scale(0.95);}
+</style>
 
-# BlueJ files
-*.ctxt
+<script>
+    var count = 0;
+    var max_count = 1;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+    function getFortune() {
+    if (count >= max_count) {
+        alert("Você já usou todas as suas tentativas de sorte!");
+        return;
+    }
+    count++;
+    var index = Math.floor(Math.random() * fortunes.length);
+    document.getElementById("fortune").innerHTML = fortunes[index];
+    document.getElementById("button").remove();
+ document.getElementById("audio").play();
+}
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+ 
+    var fortunes = [
+ "一日之计在于晨 (Yī rì zhī jì zàiyú chén) - O planejamento do dia começa pela manhã.","知己知彼,百战百胜 (Zhī jǐ zhī bǐ, bǎi zhàn bǎi shèng) - Conhecer a si mesmo e conhecer o inimigo é a chave para vencer em cem batalhas.","不打草稿,不说话 (Bù dǎ cǎogǎo, bù shuōhuà) - Não escreva sem um rascunho, não fale sem pensar.","君子之交淡如水 (Jūnzǐ zhī jiāo dàn rú shuǐ) - A amizade entre homens virtuosos é tão suave quanto a água.","知人者智,自知者明 (Zhī rén zhě zhì, zì zhī zhě míng) - Conhecer os outros é sabedoria, conhecer a si mesmo é inteligência.","胸无点墨 (Xiōng wú diǎn mò) - Não ter nenhum traço de tinta no coração (ter um coração puro e sem maldade)","一世长安 (Yī shì cháng ān) - Uma vida inteira em Chang'an (viver uma vida longa e tranquila)",
+    ];
+</script>
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    <h1> 1.Concentre-se <h1>
+<h1>2. Respire <h1>
+<h1>3. Abra </h1>
+    <button id="button" onclick="getFortune()">Pergaminho do Sábio</button>
+    <h1><p id="fortune"><p/><h1>
+<audio id="audio" src="http://www.soundescapestudios.com/SESAudio/SES%20Site%20Sounds/Friction/Paper-slide-01.wav"></audio>
+
+</h1></p></p></h1></h1></h1></h1></h1></!doctype>
