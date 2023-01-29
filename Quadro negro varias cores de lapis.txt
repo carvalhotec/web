@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #blackboard {
+        width: 900px;
+        height: 500px;
+        background-color: black;
+        border: 10px solid brown;
+       margin: 0 auto;
+    max-width: 100%;
+    }
+
+    path {
+        stroke-width: "strokeWidth";
+        fill: none;
+    }
+
+    button {
+        margin: 10px;
+    }
+
+    select {
+        margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="blackboard">
+    <svg viewBox="0 0 900 500"></svg>
+    
+  </div>
+  <button onclick="clearDrawing()">Apagar desenho</button>
+<button onclick="changeNewStrokeWidth()">Mudar espessura</button>
+  <select id="color-picker" onchange="changeColor()">
+    <option value="white">Branco</option>
+    <option value="red">Vermelho</option>
+    <option value="yellow">Amarelo</option>
+  </select>
+  <button onclick="saveDrawing()">Salvar desenho</button>
+  <script>
+       var svg = document.querySelector("svg");
+    var isDrawing = false;
+    var color = "white";
+    var strokeWidth =2;
+    var offsetX = svg.getBoundingClientRect().left;
+    var offsetY = svg.getBoundingClientRect().top;
+
+
+    document.getElementById("blackboard").addEventListener("mousedown", startDrawing);
+    document.getElementById("blackboard").addEventListener("mousemove", draw);
+    document.getElementById("blackboard").addEventListener("mouseup", stopDrawing);
+    
+function changeNewStrokeWidth() {
+    var lastPath = svg.lastChild;
+    if (lastPath) {
+        strokeWidth = prompt("Entre com a espessura da stroke desejada (em pixels)");
+        lastPath.setAttribute("stroke-width", strokeWidth);
+    }
+}
+
+document.getElementById("blackboard").addEventListener("mousedown", startDrawing);
+document.getElementById("blackboard").addEventListener("mousemove", draw);
+document.getElementById("blackboard").addEventListener("mouseup", stopDrawing);
+
+function startDrawing(event) {
+    isDrawing = true;
+    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("stroke", color);
+    path.setAttribute("stroke-width", strokeWidth);
+    svg.appendChild(path);
+    var x = event.clientX - offsetX;
+    var y = event.clientY - offsetY;
+    var d = "M " + x + " " + y;
+    path.setAttribute("d", d);
+}
+    function draw(event) {
+        if (isDrawing) {
+            var path = svg.lastChild;
+            var x = event.clientX - offsetX;
+            var y = event.clientY - offsetY;
+            var d = path.getAttribute("d") + " L " + x + " " + y;
+            path.setAttribute("d", d);
+        }
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+    }
+
+
+    function clearDrawing() {
+        while (svg.lastChild) {
+            svg.removeChild(svg.lastChild);
+        }
+    }
+
+    function changeColor() {
+        color = document.getElementById("color-picker").value;
+    }
+
+    function saveDrawing() {
+    // Obtém o conteúdo do svg como uma string
+    var svgString = new XMLSerializer().serializeToString(svg);
+
+    // Cria um canvas para desenhar o svg
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+
+    // Carrega a imagem svg no canvas
+    var img = new Image();
+    img.onload = function() {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        context.drawImage(img, 0, 0);
+
+        // Obtém a imagem jpg do canvas
+        var jpg = canvas.toDataURL("image/jpeg");
+
+        // Cria um link para baixar a imagem
+        var link = document.createElement("a");
+        link.download = "desenho.jpg";
+        link.href = jpg;
+        link.click();
+    };
+    img.src = "data:image/svg+xml," + svgString;
+}
+  </script>
+</body>
+</html>
